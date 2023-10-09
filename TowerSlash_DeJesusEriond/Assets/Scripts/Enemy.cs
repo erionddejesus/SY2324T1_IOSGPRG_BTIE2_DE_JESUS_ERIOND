@@ -17,4 +17,9 @@ public class Enemy : MonoBehaviour
     {
         enemyRigidBody.simulated = false;
     }
+
+    public void DisableRigidbody()
+    {
+        enemyRigidBody.simulated = false;
+    }
 }

@@ -1,13 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Arrow : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer arrowSprite;
     [SerializeField] private Sprite[] sprites;
-    [SerializeField] private Rigidbody2D enemyRigidbody;
 
     private bool inRange;
 
@@ -19,13 +16,13 @@ public class Arrow : MonoBehaviour
     {
         inRange = false;
 
-        arrowDirection = Random.Range(0, sprites.Length);
         arrowColor = Random.Range(0, 2);
+        arrowDirection = Random.Range(0, sprites.Length);
 
         // Decides if the arrow is a rotating arrow
         if (Random.Range(0, 2) == 0)
         {
-            StartCoroutine(RandomArrow());
+            StartCoroutine(CO_RandomArrow());
         }
         else
         {
@@ -33,18 +30,9 @@ public class Arrow : MonoBehaviour
         }
     }
 
-    // Destroys parent object when in range and swipe direction is correct
-    private void OnTriggerStay2D(Collider2D collider)
+    public void SetInRange(bool range)
     {
-        if (GameManager.Instance.GetIsAttacking() && enemyRigidbody.simulated)
-            Destroy(transform.parent.gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        inRange = true;
-
-        ArrowDirection();
+        inRange = range;
     }
 
     private void DisplayArrow()
@@ -52,12 +40,16 @@ public class Arrow : MonoBehaviour
         arrowSprite.sprite = sprites[arrowDirection];
 
         if (arrowColor == 0)
+        {
             arrowSprite.color = Color.green;
+        }
         else
+        {
             arrowSprite.color = Color.red;
+        }
     }
 
-    private IEnumerator RandomArrow()
+    private IEnumerator CO_RandomArrow()
     {
         while (!inRange)
         {
@@ -68,31 +60,13 @@ public class Arrow : MonoBehaviour
         DisplayArrow();
     }
 
-    private void ArrowDirection()
+    public int GetArrowColor()
     {
-        // Up = 0, Down = 1, Left = 2, Right = 3
-        if (arrowColor == 0)
-        {
-            GameManager.Instance.SetDirection(arrowDirection);
-        }
-        // Opposite direction
-        else
-        {
-            switch (arrowDirection)
-            {
-                case 0:
-                    GameManager.Instance.SetDirection(1);
-                    break;
-                case 1:
-                    GameManager.Instance.SetDirection(0);
-                    break;
-                case 2:
-                    GameManager.Instance.SetDirection(3);
-                    break;
-                case 3:
-                    GameManager.Instance.SetDirection(2);
-                    break;
-            }
-        }
+        return arrowColor;
+    }
+
+    public int GetArrowDirection()
+    {
+        return arrowDirection;
     }
 }
