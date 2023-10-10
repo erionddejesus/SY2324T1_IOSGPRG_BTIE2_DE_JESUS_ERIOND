@@ -1,57 +1,41 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer playerSprite;
+    [SerializeField] private List<GameObject> enemies;
 
     // Player stats
     private int maxLives;
     private int currentLives;
 
+    private int speed;
+    private int dashAmount;
+
     private float maxDashGauge;
     private float currentDashGauge;
 
-    private int speed;
-
-    private bool isAttacking;
     private bool isDashing;
     private bool isTapDashing;
 
-    private bool enemyAlive;
-
-    // Arrow direction
-    private int arrowColor;
-    private int arrowDirection;
-
-    private int correctArrowDirection;
-
-    private bool correctSwipe;
-
     // Touch controls
-    private float deadZone;
-
     private Vector2 initialTouchPosition;
     private Vector2 endTouchPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        maxLives = 3; // Will either be 3 or 5 depending on character selected
         currentLives = maxLives;
+
+        speed = 1;
 
         maxDashGauge = 100;
         currentDashGauge = 100;
 
-        speed = 1;
-
-        isAttacking = false;
         isDashing = false;
-
-        correctSwipe = false;
-
-        deadZone = 1.0f;
+        isTapDashing = false;
     }
 
     // Check if player collides with enemy
@@ -67,8 +51,6 @@ public class Player : MonoBehaviour
             {
                 IncreaseDashGauge();
                 Powerup();
-
-                Destroy(collision.gameObject);
             }
         }
     }
@@ -78,38 +60,8 @@ public class Player : MonoBehaviour
     {
         if (collider.GetComponent<Enemy>())
         {
-            enemyAlive = true;
-
-            collider.GetComponentInChildren<Arrow>().SetInRange(true);
-
-            arrowColor = collider.GetComponentInChildren<Arrow>().GetArrowColor();
-            arrowDirection = collider.GetComponentInChildren<Arrow>().GetArrowDirection();
-
-            CheckArrowDirection();
-        }
-    }
-
-    // Check if player is attacking
-    private void OnTriggerStay2D(Collider2D collider)
-    {
-        if (collider.GetComponent<Enemy>())
-        {
-            if (isAttacking)
-            {
-                if (!correctSwipe)
-                {
-                    DecreaseLives();
-
-                    collider.GetComponent<Enemy>().DisableRigidbody();
-                }
-                else
-                {
-                    IncreaseDashGauge();
-                    Powerup();
-
-                    Destroy(collider.gameObject);
-                }
-            }
+            collider.GetComponentInChildren<Arrow>().SetInRange();
+            enemies.Add(collider.gameObject);
         }
     }
 
@@ -141,106 +93,64 @@ public class Player : MonoBehaviour
         float yDistance = Mathf.Abs(initialTouchPosition.y - endTouchPosition.y);
 
         // Check if tap (dash)
-        if (xDistance < deadZone || yDistance < deadZone)
+        if (xDistance < 1 || yDistance < 1)
         {
             // Dash if there's no enemy in range
-            if (!enemyAlive && !isDashing && !isTapDashing)
+            if (enemies.Count == 0 && !isDashing && !isTapDashing)
             {
+                AddScore(5);
                 StartCoroutine(CO_TapDash());
             }
 
             return;
         }
 
+        int swipeDirection;
+
         // Check swipe direction
         if (xDistance > yDistance)
         {
             if (initialTouchPosition.x < endTouchPosition.x)
             {
-                // Right
-                StartCoroutine(CO_Attack(3));
-                Debug.Log("right");
+                swipeDirection = 3; // Right
             }
             else
             {
-                // Left
-                StartCoroutine(CO_Attack(2));
-                Debug.Log("left");
+                swipeDirection = 2; // Left
             }
         }
         else
         {
             if (initialTouchPosition.y < endTouchPosition.y)
             {
-                // Up
-                StartCoroutine(CO_Attack(0));
-                Debug.Log("up");
+                swipeDirection = 0; // Up
             }
             else
             {
-                // Down
-                StartCoroutine(CO_Attack(1));
-                Debug.Log("down");
+                swipeDirection = 1; // Down
             }
         }
-    }
 
-    private void CheckArrowDirection()
-    {
-        // Up = 0, Down = 1, Left = 2, Right = 3
-        if (arrowColor == 0)
+        if (enemies.Count != 0)
         {
-            correctArrowDirection = arrowDirection;
-        }
-        // Opposite direction
-        else
-        {
-            switch (arrowDirection)
+            if (swipeDirection != enemies[0].GetComponentInChildren<Arrow>().GetArrowDirection())
             {
-                case 0:
-                    correctArrowDirection = 1;
-                    break;
-                case 1:
-                    correctArrowDirection = 0;
-                    break;
-                case 2:
-                    correctArrowDirection = 3;
-                    break;
-                case 3:
-                    correctArrowDirection = 2;
-                    break;
+                DecreaseLives();
+            }
+            else
+            {
+                IncreaseDashGauge();
+                Powerup();
             }
         }
-    }
-
-    private IEnumerator CO_Attack(int swipeDirection)
-    {
-        if (!enemyAlive)
-        {
-            yield break;
-        }
-
-        isAttacking = true;
-
-        // Check if swipe direction is correct
-        if (correctArrowDirection == swipeDirection)
-        {
-            correctSwipe = true;
-        }
-        else
-        {
-            correctSwipe = false;
-        }
-
-        yield return new WaitForSeconds(0.1f);
-        isAttacking = false;
     }
 
     private void DecreaseLives()
     {
-        enemyAlive = false;
-
         currentLives--;
+
+        enemies[0].GetComponent<Enemy>().DisableRigidbody();
+        enemies.Remove(enemies[0]);
 
         if (currentLives == 0)
         {
@@ -250,10 +160,12 @@ public class Player : MonoBehaviour
 
     private void Powerup()
     {
-        // 3% chance
-        int randomValue = Random.Range(0, 100);
+        AddScore(10);
 
-        if (randomValue < 3)
+        Destroy(enemies[0]);
+        enemies.Remove(enemies[0]);
+
+        if (Random.Range(0, 100) < 3) // 3% chance
         {
             currentLives++;
 
@@ -266,9 +178,7 @@ public class Player : MonoBehaviour
 
     private void IncreaseDashGauge()
     {
-        enemyAlive = false;
-
-        currentDashGauge += (5 / maxDashGauge) * 100; // +5% (will change depending on which character is selected)
+        currentDashGauge += (dashAmount / maxDashGauge) * 100;
 
         if (currentDashGauge > maxDashGauge)
         {
@@ -281,11 +191,11 @@ public class Player : MonoBehaviour
         currentDashGauge = 0;
 
         isDashing = true;
-        speed = 6;
+        Time.timeScale = 4.0f;
 
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSecondsRealtime(5.0f);
         isDashing = false;
-        speed = 1;
+        Time.timeScale = 1.0f;
     }
 
     private IEnumerator CO_TapDash()
@@ -300,9 +210,24 @@ public class Player : MonoBehaviour
         isTapDashing = false;
     }
 
+    private void AddScore(int score)
+    {
+        GameManager.Instance.currentScore += score;
+    }
+
     public void Dash()
     {
         StartCoroutine(CO_Dash());
+    }
+
+    public void SetMaxLives(int lives)
+    {
+        maxLives = lives;
+    }
+
+    public void SetDashAmount(int dash)
+    {
+        dashAmount = dash;
     }
 
     public int GetLives()

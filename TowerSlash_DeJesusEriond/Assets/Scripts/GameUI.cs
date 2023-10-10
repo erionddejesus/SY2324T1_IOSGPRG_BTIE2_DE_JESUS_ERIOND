@@ -1,34 +1,35 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
-    [SerializeField] private Player player;
+    [HideInInspector] public Player player;
+
     [SerializeField] private TextMeshProUGUI livesText;
+    [SerializeField] private TextMeshProUGUI scoreText;
 
     [SerializeField] private Slider dashGauge;
     [SerializeField] private Button dashButton;
 
-    private float lerpSpeed;
-
     // Start is called before the first frame update
     void Start()
     {
-        lerpSpeed = 5.0f * Time.deltaTime;
+        GameManager.Instance.currentScore = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
         livesText.text = "Lives: " + player.GetLives();
+        scoreText.text = "Score: " + GameManager.Instance.currentScore;
 
-        dashGauge.value = Mathf.Lerp(dashGauge.value, player.GetCurrentDashGauge() / player.GetMaxDashGauge(), lerpSpeed);
+        dashGauge.value = Mathf.Lerp(dashGauge.value, player.GetCurrentDashGauge() / player.GetMaxDashGauge(), 5 * Time.deltaTime);
 
         if (player.GetCurrentDashGauge() == player.GetMaxDashGauge())
         {
             dashButton.gameObject.SetActive(true);
+            dashButton.onClick.AddListener(player.Dash);
         }
         else
         {

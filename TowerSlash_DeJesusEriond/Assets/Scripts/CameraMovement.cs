@@ -1,18 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] private Transform player;
-
-    private Vector3 offset;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        offset = new Vector3(0, 3, -1);
-    }
+    [HideInInspector] public Player player;
 
     // Update is called once per frame
     void Update()
@@ -20,7 +10,7 @@ public class CameraMovement : MonoBehaviour
         // Checks if player is null
         if (player)
         {
-            transform.position = new Vector3(0, player.position.y + offset.y, offset.z);
+            transform.position = new Vector3(0, player.transform.position.y + 3, -1);
         }
     }
 }

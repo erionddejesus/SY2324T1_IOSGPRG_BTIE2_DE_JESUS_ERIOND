@@ -8,7 +8,6 @@ public class Arrow : MonoBehaviour
 
     private bool inRange;
 
-    private int arrowColor;
     private int arrowDirection;
 
     // Start is called before the first frame update
@@ -16,26 +15,26 @@ public class Arrow : MonoBehaviour
     {
         inRange = false;
 
-        arrowColor = Random.Range(0, 2);
         arrowDirection = Random.Range(0, sprites.Length);
 
-        // Decides if the arrow is a rotating arrow
-        if (Random.Range(0, 2) == 0)
+        // 20 percent chance to be a rotating arrow
+        if (Random.Range(1, 6) == 1)
         {
             StartCoroutine(CO_RandomArrow());
         }
         else
         {
-            DisplayArrow();
+            DisplayArrow(Random.Range(0, 2));
         }
     }
 
-    public void SetInRange(bool range)
+    public void SetInRange()
     {
-        inRange = range;
+        inRange = true;
+        transform.localScale = transform.localScale * 1.3f;
     }
 
-    private void DisplayArrow()
+    private void DisplayArrow(int arrowColor)
     {
         arrowSprite.sprite = sprites[arrowDirection];
 
@@ -46,23 +45,36 @@ public class Arrow : MonoBehaviour
         else
         {
             arrowSprite.color = Color.red;
+
+            switch (arrowDirection)
+            {
+                case 0:
+                    arrowDirection = 1;
+                    break;
+                case 1:
+                    arrowDirection = 0;
+                    break;
+                case 2:
+                    arrowDirection = 3;
+                    break;
+                case 3:
+                    arrowDirection = 2;
+                    break;
+            }
         }
     }
 
     private IEnumerator CO_RandomArrow()
     {
+        arrowSprite.color = Color.yellow;
+
         while (!inRange)
         {
             yield return new WaitForSeconds(0.3f);
             arrowSprite.sprite = sprites[Random.Range(0, sprites.Length)];
         }
 
-        DisplayArrow();
-    }
-
-    public int GetArrowColor()
-    {
-        return arrowColor;
+        DisplayArrow(0);
     }
 
     public int GetArrowDirection()
