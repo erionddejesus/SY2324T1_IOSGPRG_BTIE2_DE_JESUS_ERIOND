@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7489156677702337721}
   - component: {fileID: -7903747625865347211}
   - component: {fileID: 3971241317272678493}
+  - component: {fileID: -1501502574823187037}
   m_Layer: 0
   m_Name: ShotgunLoot
   m_TagString: Untagged
@@ -124,6 +125,24 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.73
+--- !u!114 &-1501502574823187037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1004300560261780736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc6f64dfba5152f4e8fbabfa2013dd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ammoType: 2
+  _slot: 0
+  _fireRate: 1.5
+  _spread: 5
+  _damage: 20
+  _clipCapacity: 2
 --- !u!1 &5862805317209913592
 GameObject:
   m_ObjectHideFlags: 0

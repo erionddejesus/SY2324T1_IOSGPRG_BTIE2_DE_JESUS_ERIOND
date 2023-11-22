@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &60308508222193289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3081644667220641702}
+  m_Layer: 0
+  m_Name: BulletSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3081644667220641702
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 60308508222193289}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3220542931499740104}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &815569234793179519
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,10 +187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c6cded79d63fc844bb8b4e651bd0330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 4722683023001354718}
-  _enemyHealthBar: {fileID: 3948188330230066147}
-  _camera: {fileID: 0}
-  _target: {fileID: 3220542931499740104}
+  _health: {fileID: -120695751698135889}
+  _healthBar: {fileID: 3948188330230066147}
 --- !u!1 &1595805016764481157
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,6 +416,7 @@ GameObject:
   - component: {fileID: 4496558806168326189}
   - component: {fileID: 3220542931499740106}
   - component: {fileID: 4722683023001354718}
+  - component: {fileID: -120695751698135889}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -408,6 +438,7 @@ Transform:
   m_Children:
   - {fileID: 5382537576070158692}
   - {fileID: 3371925297323733798}
+  - {fileID: 3081644667220641702}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -510,6 +541,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e411963a19557a34db8b05e7b3853095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _currentWeapon:
+    _ammoType: 3
+    _damage: 0
+    _fireRate: 0
+    _spread: 0
+    _clipCapacity: 0
+    _currentClip: 0
+  _bulletPrefab: {fileID: 1475509803996729952, guid: a819d8304b8fa404eab477820683ec11, type: 3}
+  _bulletSpawnPoint: {fileID: 3081644667220641702}
+  _movementSpeed: 5
+  _rotationSpeed: 3
+  _maxHealth: 100
+  _player: {fileID: 0}
+--- !u!114 &-120695751698135889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3220542931499740111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ee2fe7d5f83e342a3f4a5a55110703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3220542932202276321
