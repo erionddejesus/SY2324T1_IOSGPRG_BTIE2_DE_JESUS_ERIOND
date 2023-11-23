@@ -14,7 +14,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnLoot()
     {
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 30; i++)
         {
             Vector3 pos = new Vector3(Random.Range(-50, 51), Random.Range(-50, 51), 0);
 

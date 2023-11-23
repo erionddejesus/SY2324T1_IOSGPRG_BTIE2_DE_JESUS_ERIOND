@@ -173,13 +173,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentWeapon:
     _ammoType: 3
-    _damage: 0
     _fireRate: 0
+    _reloadSpeed: 0
     _spread: 0
+    _bullets: 0
+    _damage: 0
     _clipCapacity: 0
     _currentClip: 0
   _bulletPrefab: {fileID: 1475509803996729952, guid: a819d8304b8fa404eab477820683ec11, type: 3}
   _bulletSpawnPoint: {fileID: 3225545984430203809}
+  _weaponSprite: {fileID: 4592104579991364119}
+  _sprites:
+  - {fileID: 21300000, guid: 47c46abd6f428334e88e5161e6ee2a52, type: 3}
+  - {fileID: 21300000, guid: 54fed08f3d33a034bb5c950c728ed439, type: 3}
+  - {fileID: 21300000, guid: 19e6ac0849904f642b52ab55403411b3, type: 3}
   _movementSpeed: 5
   _rotationSpeed: 3
   _maxHealth: 100
@@ -210,15 +217,19 @@ MonoBehaviour:
   _player: {fileID: 778899093608745394}
   _weaponInventory:
   - _ammoType: 3
-    _damage: 0
     _fireRate: 0
+    _reloadSpeed: 0
     _spread: 0
+    _bullets: 0
+    _damage: 0
     _clipCapacity: 0
     _currentClip: 0
   - _ammoType: 3
-    _damage: 0
     _fireRate: 0
+    _reloadSpeed: 0
     _spread: 0
+    _bullets: 0
+    _damage: 0
     _clipCapacity: 0
     _currentClip: 0
   _ammoInventory:
@@ -231,11 +242,6 @@ MonoBehaviour:
   - _ammoType: 2
     _maxAmmo: 60
     _currentAmmo: 0
-  _weaponSprite: {fileID: 4592104579991364119}
-  _sprites:
-  - {fileID: 21300000, guid: 47c46abd6f428334e88e5161e6ee2a52, type: 3}
-  - {fileID: 21300000, guid: 54fed08f3d33a034bb5c950c728ed439, type: 3}
-  - {fileID: 21300000, guid: 19e6ac0849904f642b52ab55403411b3, type: 3}
 --- !u!1 &3256073698609072897
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,8 +519,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6356173885626008001}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.4000002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

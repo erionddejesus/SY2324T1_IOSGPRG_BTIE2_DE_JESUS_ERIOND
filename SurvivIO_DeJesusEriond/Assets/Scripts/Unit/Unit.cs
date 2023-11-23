@@ -4,10 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class Unit : MonoBehaviour
 {
+    public int CurrentClip
+    {
+        get => _currentWeapon._currentClip;
+        private set => _currentWeapon._currentClip = value;
+    }
+
     [SerializeField] protected Weapon _currentWeapon;
 
     [SerializeField] protected GameObject _bulletPrefab;
     [SerializeField] protected Transform _bulletSpawnPoint;
+
+    [SerializeField] private GameObject _weaponSprite;
+    [SerializeField] private Sprite[] _sprites;
 
     [SerializeField] protected int _movementSpeed;
     [SerializeField] protected int _rotationSpeed;
@@ -20,6 +29,30 @@ public class Unit : MonoBehaviour
 
     private Health _health;
 
+    public void SetCurrentWeapon(Weapon weapon, int index)
+    {
+        _currentWeapon = weapon;
+
+        _weaponSprite.SetActive(true);
+        _weaponSprite.GetComponent<SpriteRenderer>().sprite = _sprites[index];
+    }
+
+    public virtual void Shoot()
+    {
+        if (CurrentClip > 0)
+        {
+            for (int i = 0; i < _currentWeapon._bullets; i++)
+            {
+                GameObject bullet = Instantiate(_bulletPrefab, _bulletSpawnPoint.position, transform.rotation);
+                bullet.transform.Rotate(0, 0, Random.Range(-_currentWeapon._spread / 2, _currentWeapon._spread / 2));
+                bullet.GetComponent<Bullet>().Damage = _currentWeapon._damage;
+            }
+
+            CurrentClip--;
+            _fireRateTimer = _currentWeapon._fireRate;
+        }
+    }
+
     protected void Initialize(int maxHealth, int movementSpeed, int rotationSpeed)
     {
         _movementSpeed = movementSpeed;
@@ -29,21 +62,8 @@ public class Unit : MonoBehaviour
         _health.Initialize(maxHealth);
     }
 
-    public virtual void Shoot()
+    protected virtual IEnumerator CO_Reload(float time)
     {
-        if (_currentWeapon._currentClip > 0)
-        {
-            GameObject bullet = Instantiate(_bulletPrefab, _bulletSpawnPoint.position, transform.rotation);
-            bullet.GetComponent<Bullet>().Damage = _currentWeapon._damage;
-
-            _currentWeapon._currentClip--;
-
-            _fireRateTimer = _currentWeapon._fireRate;
-        }
-    }
-
-    protected virtual IEnumerator CO_Reload()
-    {
-        yield return new WaitForSeconds(0f);
+        yield return new WaitForSeconds(time);
     }
 }

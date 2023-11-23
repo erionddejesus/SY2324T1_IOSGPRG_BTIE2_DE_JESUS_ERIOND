@@ -13,9 +13,6 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Weapon[] _weaponInventory;
     [SerializeField] private Ammo[] _ammoInventory;
 
-    [SerializeField] private GameObject _weaponSprite;
-    [SerializeField] private Sprite[] _sprites;
-
     public int GetCurrentAmmo(AmmoType type)
     {
         return _ammoInventory[(int)type]._currentAmmo;
@@ -49,11 +46,6 @@ public class Inventory : MonoBehaviour
 
     public void ChangeWeapon(int slot)
     {
-        _player.SetCurrentWeapon(_weaponInventory[slot]);
-
-        int index = (int)_weaponInventory[slot]._ammoType;
-
-        _weaponSprite.SetActive(true);
-        _weaponSprite.GetComponent<SpriteRenderer>().sprite = _sprites[index];
+        _player.SetCurrentWeapon(_weaponInventory[slot], (int)_weaponInventory[slot]._ammoType);
     }
 }

@@ -9,22 +9,17 @@ public class Player : Unit
         get => _currentWeapon._ammoType;
     }
 
-    public int CurrentClip
-    {
-        get => _currentWeapon._currentClip;
-    }
-
     private PlayerInput _playerInput;
 
     private Inventory _inventory;
+
+    private bool _isShooting;
 
     private void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
 
         _inventory = GetComponent<Inventory>();
-
-        _isReloading = false;
 
         base.Initialize(_maxHealth, _movementSpeed, _rotationSpeed);
     }
@@ -35,32 +30,44 @@ public class Player : Unit
         Rotate();
 
         if (_fireRateTimer > 0)
+        {
             _fireRateTimer -= Time.deltaTime;
+        }
+
+
+        if (_isShooting)
+        {
+            Shoot();
+        }
 
         if (CurrentAmmoType != AmmoType.None && _currentWeapon._currentClip <= 0 && !_isReloading)
         {
             _isReloading = true;
-            StartCoroutine(CO_Reload());
+            StartCoroutine(CO_Reload(_currentWeapon._reloadSpeed));
         }
     }
 
-    public void SetCurrentWeapon(Weapon weapon)
+    public void SetShooting(bool isShooting)
     {
-        _currentWeapon = weapon;
+        _isShooting = isShooting;
     }
 
     public override void Shoot()
     {
-        // Pistol mechanics
         if (CurrentAmmoType != AmmoType.None && _fireRateTimer <= 0)
         {
             base.Shoot();
+
+            if (CurrentAmmoType != AmmoType.Automatic)
+            {
+                _isShooting = false;
+            }
         }
     }
 
-    protected override IEnumerator CO_Reload()
+    protected override IEnumerator CO_Reload(float time)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(time);
 
         if (_currentWeapon._clipCapacity <= _inventory.GetCurrentAmmo(CurrentAmmoType))
         {

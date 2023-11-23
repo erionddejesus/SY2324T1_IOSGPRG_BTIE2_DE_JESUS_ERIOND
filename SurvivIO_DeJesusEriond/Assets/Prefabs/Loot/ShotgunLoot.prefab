@@ -139,9 +139,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ammoType: 2
   _slot: 0
-  _fireRate: 1.5
-  _spread: 5
-  _damage: 20
+  _fireRate: 0.6
+  _reloadSpeed: 2.7
+  _spread: 10
+  _bullets: 8
+  _damage: 10
   _clipCapacity: 2
 --- !u!1 &5862805317209913592
 GameObject:
