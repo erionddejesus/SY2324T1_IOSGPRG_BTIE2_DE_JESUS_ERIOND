@@ -1,8 +1,18 @@
 using UnityEngine;
 
+public enum GunType
+{
+    Pistol,
+    Automatic,
+    Shotgun,
+    GrenadeLauncher,
+    None
+}
+
 [System.Serializable]
 public class Weapon
 {
+    public GunType _gunType;
     public AmmoType _ammoType;
 
     public float _fireRate;
@@ -14,8 +24,9 @@ public class Weapon
     public int _clipCapacity;
     [HideInInspector] public int _currentClip;
 
-    public void Initialize(AmmoType ammo, float fireRate, float reloadSpeed, float spread, int bullets, int damage, int clipCapacity)
+    public void Initialize(GunType gun, AmmoType ammo, float fireRate, float reloadSpeed, float spread, int bullets, int damage, int clipCapacity)
     {
+        _gunType = gun;
         _ammoType = ammo;
         _fireRate = fireRate;
         _reloadSpeed = reloadSpeed;

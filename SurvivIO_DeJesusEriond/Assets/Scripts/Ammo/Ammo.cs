@@ -2,16 +2,14 @@ using UnityEngine;
 
 public enum AmmoType
 {
-    Pistol,
-    Automatic,
-    Shotgun,
-    None
+    Bullet,
+    Grenade
 }
 
 [System.Serializable]
 public class Ammo
 {
-    public AmmoType _ammoType;
+    public GunType _gunType;
 
     public int _maxAmmo;
     [HideInInspector] public int _currentAmmo;

@@ -7,6 +7,6 @@ public class AmmoPickup : Pickup
 
     protected override void Loot(Inventory inventory)
     {
-        inventory.IncreaseAmmo(_ammoType, Random.Range(_minAmount, _maxAmount));
+        inventory.IncreaseAmmo(_gunType, Random.Range(_minAmount, _maxAmount));
     }
 }

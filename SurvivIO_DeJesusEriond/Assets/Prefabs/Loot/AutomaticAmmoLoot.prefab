@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 34dee1d99451df64096ebd09456d4a97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -146,6 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c70ba40c6c6cf4aaaf403763da2757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ammoType: 1
+  _gunType: 1
   _minAmount: 5
   _maxAmount: 16

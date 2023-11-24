@@ -8,11 +8,13 @@ public class Bullet : MonoBehaviour
         set => _damage = value;
     }
     
-    private int _damage;
+    protected int _damage;
+
+    [SerializeField] private float _lifespan;
 
     private void Start()
     {
-        StartCoroutine(CO_DestroyBullet());
+        StartCoroutine(CO_DestroyBullet(_lifespan));
     }
 
     private void Update()
@@ -32,12 +34,17 @@ public class Bullet : MonoBehaviour
             collision.gameObject.GetComponent<Health>().TakeDamage(_damage);
         }
 
+        DestroyBullet();
+    }
+
+    protected virtual void DestroyBullet()
+    {
         Destroy(gameObject);
     }
 
-    private IEnumerator CO_DestroyBullet()
+    private IEnumerator CO_DestroyBullet(float lifespan)
     {
-        yield return new WaitForSeconds(1f);
-        Destroy(gameObject);
+        yield return new WaitForSeconds(lifespan);
+        DestroyBullet();
     }
 }

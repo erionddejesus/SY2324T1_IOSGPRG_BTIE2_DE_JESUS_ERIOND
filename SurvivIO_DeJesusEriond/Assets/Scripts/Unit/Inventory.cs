@@ -13,17 +13,17 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Weapon[] _weaponInventory;
     [SerializeField] private Ammo[] _ammoInventory;
 
-    public int GetCurrentAmmo(AmmoType type)
+    public int GetCurrentAmmo(GunType type)
     {
         return _ammoInventory[(int)type]._currentAmmo;
     }
 
     public string GetWeaponName(WeaponSlot slot)
     {
-        return _weaponInventory[(int)slot]._ammoType.ToString();
+        return _weaponInventory[(int)slot]._gunType.ToString();
     }
 
-    public void IncreaseAmmo(AmmoType type, int amount)
+    public void IncreaseAmmo(GunType type, int amount)
     {
         Ammo inventory = _ammoInventory[(int)type];
 
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
         inventory._currentAmmo = Mathf.Min(inventory._currentAmmo, inventory._maxAmmo);
     }
 
-    public void DecreaseAmmo(AmmoType type, int amount)
+    public void DecreaseAmmo(GunType type, int amount)
     {
         Ammo inventory = _ammoInventory[(int)type];
 
@@ -46,6 +46,6 @@ public class Inventory : MonoBehaviour
 
     public void ChangeWeapon(int slot)
     {
-        _player.SetCurrentWeapon(_weaponInventory[slot], (int)_weaponInventory[slot]._ammoType);
+        _player.SetCurrentWeapon(_weaponInventory[slot], (int)_weaponInventory[slot]._gunType);
     }
 }

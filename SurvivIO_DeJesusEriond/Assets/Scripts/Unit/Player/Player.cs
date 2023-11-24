@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 
 public class Player : Unit
 {
-    public AmmoType CurrentAmmoType
+    public GunType CurrentGunType
     {
-        get => _currentWeapon._ammoType;
+        get => _currentWeapon._gunType;
     }
 
     private PlayerInput _playerInput;
@@ -18,7 +18,6 @@ public class Player : Unit
     private void Start()
     {
         _playerInput = GetComponent<PlayerInput>();
-
         _inventory = GetComponent<Inventory>();
 
         base.Initialize(_maxHealth, _movementSpeed, _rotationSpeed);
@@ -39,7 +38,7 @@ public class Player : Unit
             Shoot();
         }
 
-        if (CurrentAmmoType != AmmoType.None && _currentWeapon._currentClip <= 0 && !_isReloading)
+        if (CurrentGunType != GunType.None && _currentWeapon._currentClip <= 0 && !_isReloading)
         {
             _isReloading = true;
             StartCoroutine(CO_Reload(_currentWeapon._reloadSpeed));
@@ -53,11 +52,11 @@ public class Player : Unit
 
     public override void Shoot()
     {
-        if (CurrentAmmoType != AmmoType.None)
+        if (CurrentGunType != GunType.None)
         {
             base.Shoot();
 
-            if (CurrentAmmoType != AmmoType.Automatic)
+            if (CurrentGunType != GunType.Automatic)
             {
                 _isShooting = false;
             }
@@ -68,16 +67,16 @@ public class Player : Unit
     {
         yield return new WaitForSeconds(time);
 
-        if (_currentWeapon._clipCapacity <= _inventory.GetCurrentAmmo(CurrentAmmoType))
+        if (_currentWeapon._clipCapacity <= _inventory.GetCurrentAmmo(CurrentGunType))
         {
             CurrentClip = _currentWeapon._clipCapacity;
         }
         else
         {
-            CurrentClip = _inventory.GetCurrentAmmo(CurrentAmmoType);
+            CurrentClip = _inventory.GetCurrentAmmo(CurrentGunType);
         }
 
-        _inventory.DecreaseAmmo(CurrentAmmoType, CurrentClip);
+        _inventory.DecreaseAmmo(CurrentGunType, CurrentClip);
 
         _isReloading = false;
     }

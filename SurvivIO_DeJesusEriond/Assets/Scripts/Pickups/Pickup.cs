@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    [SerializeField] protected AmmoType _ammoType;
+    [SerializeField] protected GunType _gunType;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {

@@ -2,13 +2,26 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private void Start()
-    {
+    public static GameManager instance;
 
+    public bool IsVictorious
+    {
+        get => _isVictorious;
+        set => _isVictorious = value;
     }
 
-    private void Update()
-    {
+    private bool _isVictorious;
 
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 }

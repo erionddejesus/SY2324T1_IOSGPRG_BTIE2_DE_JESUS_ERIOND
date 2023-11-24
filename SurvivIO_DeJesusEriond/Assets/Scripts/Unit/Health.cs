@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -28,6 +29,17 @@ public class Health : MonoBehaviour
 
         if (_currentHealth == 0)
         {
+            if (GetComponent<Player>())
+            {
+                GameManager.instance.IsVictorious = false;
+                SceneManager.LoadScene(2);
+            }
+            
+            if (GetComponent<Boss>())
+            {
+                GetComponent<Boss>().DropLoot();
+            }
+
             Destroy(gameObject);
         }
     }

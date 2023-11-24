@@ -13,11 +13,11 @@ public class LootSpawner : SpawnManager
 
         if (Random.Range(0, 100) < 70)
         {
-            _loot = Instantiate(_ammoLootPrefabs[Random.Range(0, 3)], pos, Quaternion.identity);
+            _loot = Instantiate(_ammoLootPrefabs[Random.Range(0, _ammoLootPrefabs.Length)], pos, Quaternion.identity);
         }
         else
         {
-            _loot = Instantiate(_weaponLootPrefabs[Random.Range(0, 3)], pos, Quaternion.identity);
+            _loot = Instantiate(_weaponLootPrefabs[Random.Range(0, _weaponLootPrefabs.Length - 1)], pos, Quaternion.identity);
         }
 
         _loot.transform.parent = this.transform;

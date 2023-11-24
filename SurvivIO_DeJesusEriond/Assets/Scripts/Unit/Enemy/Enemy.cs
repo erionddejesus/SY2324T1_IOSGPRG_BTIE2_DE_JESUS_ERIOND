@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    [SerializeField] private int _radius;
-    [SerializeField] private List<GameObject> _target;
+    [SerializeField] protected int _radius;
+    [SerializeField] protected List<GameObject> _target;
+    [SerializeField] protected EnemyHUD _enemyHUD;
 
-    private Animator _animator;
+    protected Animator _animator;
 
     private void Start()
     {
@@ -36,6 +37,14 @@ public class Enemy : Unit
         {
             _isReloading = true;
             StartCoroutine(CO_Reload(_currentWeapon._reloadSpeed));
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Bullet>())
+        {
+            StartCoroutine(_enemyHUD.CO_ShowHealthBar());
         }
     }
 
@@ -104,13 +113,13 @@ public class Enemy : Unit
         switch (random)
         {
             case 0:
-                weapon.Initialize(AmmoType.Pistol, 2.16f, 4, 1.2f, 1, 10, 15); // Pistol
+                weapon.Initialize(GunType.Pistol, AmmoType.Bullet, 2.16f, 4, 1.2f, 1, 10, 15); // Pistol
                 break;
             case 1:
-                weapon.Initialize(AmmoType.Automatic, 0.35f, 4.6f, 1.1f, 1, 15, 30); // Automatic
+                weapon.Initialize(GunType.Automatic, AmmoType.Bullet, 0.35f, 4.6f, 1.1f, 1, 15, 30); // Automatic
                 break;
             case 2:
-                weapon.Initialize(AmmoType.Shotgun, 0.6f, 5.4f, 10, 8, 10, 2); // Shotgun
+                weapon.Initialize(GunType.Shotgun, AmmoType.Bullet, 0.6f, 5.4f, 10, 8, 10, 2); // Shotgun
                 break;
         }
 
