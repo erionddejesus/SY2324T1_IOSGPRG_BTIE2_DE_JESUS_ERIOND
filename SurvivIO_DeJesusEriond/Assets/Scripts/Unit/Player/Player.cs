@@ -34,7 +34,6 @@ public class Player : Unit
             _fireRateTimer -= Time.deltaTime;
         }
 
-
         if (_isShooting)
         {
             Shoot();
@@ -54,7 +53,7 @@ public class Player : Unit
 
     public override void Shoot()
     {
-        if (CurrentAmmoType != AmmoType.None && _fireRateTimer <= 0)
+        if (CurrentAmmoType != AmmoType.None)
         {
             base.Shoot();
 
@@ -71,14 +70,14 @@ public class Player : Unit
 
         if (_currentWeapon._clipCapacity <= _inventory.GetCurrentAmmo(CurrentAmmoType))
         {
-            _currentWeapon._currentClip = _currentWeapon._clipCapacity;
+            CurrentClip = _currentWeapon._clipCapacity;
         }
         else
         {
-            _currentWeapon._currentClip = _inventory.GetCurrentAmmo(CurrentAmmoType);
+            CurrentClip = _inventory.GetCurrentAmmo(CurrentAmmoType);
         }
 
-        _inventory.DecreaseAmmo(CurrentAmmoType, _currentWeapon._currentClip);
+        _inventory.DecreaseAmmo(CurrentAmmoType, CurrentClip);
 
         _isReloading = false;
     }

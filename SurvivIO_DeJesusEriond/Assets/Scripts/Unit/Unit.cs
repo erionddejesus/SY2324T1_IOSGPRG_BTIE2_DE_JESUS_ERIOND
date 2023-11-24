@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
     public int CurrentClip
     {
         get => _currentWeapon._currentClip;
-        private set => _currentWeapon._currentClip = value;
+        protected set => _currentWeapon._currentClip = value;
     }
 
     [SerializeField] protected Weapon _currentWeapon;
@@ -39,7 +39,7 @@ public class Unit : MonoBehaviour
 
     public virtual void Shoot()
     {
-        if (CurrentClip > 0)
+        if (CurrentClip > 0 && _fireRateTimer <= 0)
         {
             for (int i = 0; i < _currentWeapon._bullets; i++)
             {

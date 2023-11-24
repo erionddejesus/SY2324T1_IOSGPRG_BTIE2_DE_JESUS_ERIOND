@@ -1203,9 +1203,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 242714987}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1dbd3d655a326e4bb3081ce271a785e, type: 3}
+  m_Script: {fileID: 11500000, guid: f85bcb08950491b4c8eb95b850a881b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _amount: 50
   _weaponLootPrefabs:
   - {fileID: 1004300560261780736, guid: 863560bed5779ee448bc85888c6449d3, type: 3}
   - {fileID: 1004300560261780736, guid: 1d762d953c9dc9f418d30dc62c2d5497, type: 3}
@@ -6042,6 +6043,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1589251363}
+  - component: {fileID: 1589251364}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -6068,6 +6070,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1589251364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589251362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abb01cc5c5f2a554fa0e7493841a8efa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 15
+  _enemyPrefab: {fileID: 3220542931499740111, guid: 7a2029bbc28c76e4a87d10acdaf7a212, type: 3}
 --- !u!1 &1593838976
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,19 +87,11 @@ public class Enemy : Unit
         transform.Translate(0, _movementSpeed * Time.deltaTime, 0);
     }
 
-    public override void Shoot()
-    {
-        if (_fireRateTimer <= 0)
-        {
-            base.Shoot();
-        }
-    }
-
     protected override IEnumerator CO_Reload(float time)
     {
         yield return new WaitForSeconds(time);
 
-        _currentWeapon._currentClip = _currentWeapon._clipCapacity;
+        CurrentClip = _currentWeapon._clipCapacity;
 
         _isReloading = false;
     }
